@@ -11,10 +11,10 @@ console = Console()
 @click.group()
 @click.version_option(version=__version__, prog_name="sonictool")
 def cli():
-    """SonicTool - Batch audio processing CLI toolkit.
+    """SonicTool - 批量音频处理 CLI 工具箱
 
-    Convert, normalize, trim, merge audio files and manage metadata.
-    Supports mp3, wav, flac, ogg, aac and more.
+    格式转换、音量标准化、裁剪、合并、元数据管理。
+    支持 mp3、wav、flac、ogg、aac 等格式。
     """
     pass
 

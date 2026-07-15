@@ -14,15 +14,15 @@ from sonictool.utils.display import (
 
 @click.command()
 @click.argument("paths", nargs=-1, required=True, type=click.Path(exists=True))
-@click.option("-f", "--format", "fmt", required=True, help="Output format (mp3, wav, flac, ogg, aac).")
-@click.option("-o", "--output", "output_dir", default=None, help="Output directory (default: same as source).")
-@click.option("-q", "--quality", default="192k", help="Bitrate for lossy formats (default: 192k).")
-@click.option("-r", "--recursive", is_flag=True, help="Search directories recursively.")
-@click.option("--suffix", default="", help="Add suffix to output filenames.")
+@click.option("-f", "--format", "fmt", required=True, help="输出格式 (mp3, wav, flac, ogg, aac)。")
+@click.option("-o", "--output", "output_dir", default=None, help="输出目录（默认与源文件同目录）。")
+@click.option("-q", "--quality", default="192k", help="有损格式码率（默认 192k）。")
+@click.option("-r", "--recursive", is_flag=True, help="递归搜索子目录。")
+@click.option("--suffix", default="", help="输出文件名添加后缀。")
 def convert(paths, fmt, output_dir, quality, recursive, suffix):
-    """Convert audio files to another format.
+    """批量转换音频格式。
 
-    Examples:
+    示例:
 
         sonictool convert ./music -f flac
 
@@ -34,11 +34,11 @@ def convert(paths, fmt, output_dir, quality, recursive, suffix):
     files = find_audio_files(list(paths), recursive)
 
     if not files:
-        console.print("[yellow]No audio files found.[/yellow]")
+        console.print("[yellow]未找到音频文件。[/yellow]")
         return
 
     print_header(f"Convert to {fmt.upper()}")
-    console.print(f"Found [bold]{len(files)}[/bold] file(s)\n")
+    console.print(f"找到 [bold]{len(files)}[/bold] 个文件\n")
 
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
@@ -46,7 +46,7 @@ def convert(paths, fmt, output_dir, quality, recursive, suffix):
     success, failed = 0, 0
 
     with create_progress() as progress:
-        task = progress.add_task("Converting...", total=len(files))
+        task = progress.add_task("转换中...", total=len(files))
 
         for f in files:
             try:
@@ -66,4 +66,4 @@ def convert(paths, fmt, output_dir, quality, recursive, suffix):
 
             progress.advance(task)
 
-    console.print(f"\n[bold green]Done![/bold green] {success} converted, {failed} failed.")
+    console.print(f"\n[bold green]完成！[/bold green] {success} 个成功，{failed} 个失败。")

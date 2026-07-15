@@ -14,16 +14,16 @@ from sonictool.utils.display import (
 
 @click.command()
 @click.argument("paths", nargs=-1, required=True, type=click.Path(exists=True))
-@click.option("-o", "--output", required=True, help="Output file path.")
-@click.option("-g", "--gap", default="0", help="Gap between files (e.g. '1s', '500ms').")
-@click.option("-r", "--recursive", is_flag=True, help="Search directories recursively.")
-@click.option("-c", "--crossfade", default="0", help="Crossfade duration (e.g. '500ms').")
+@click.option("-o", "--output", required=True, help="输出文件路径。")
+@click.option("-g", "--gap", default="0", help="文件间间隔（如 '1s'、'500ms'）。")
+@click.option("-r", "--recursive", is_flag=True, help="递归搜索子目录。")
+@click.option("-c", "--crossfade", default="0", help="交叉淡入时长（如 '500ms'）。")
 def merge(paths, output, gap, recursive, crossfade):
-    """Merge multiple audio files into a single file.
+    """将多个音频文件合并为一个。
 
-    Files are concatenated in the order found.
+    按文件顺序依次拼接。
 
-    Examples:
+    示例:
 
         sonictool merge intro.mp3 content.mp3 outro.mp3 -o full.mp3
 
@@ -34,11 +34,11 @@ def merge(paths, output, gap, recursive, crossfade):
     files = find_audio_files(list(paths), recursive)
 
     if not files:
-        console.print("[yellow]No audio files found.[/yellow]")
+        console.print("[yellow]未找到音频文件。[/yellow]")
         return
 
     print_header("Merge Audio")
-    console.print(f"Merging [bold]{len(files)}[/bold] file(s)\n")
+    console.print(f"合并 [bold]{len(files)}[/bold] 个文件\\n")
 
     # Parse gap and crossfade
     gap_ms = 0

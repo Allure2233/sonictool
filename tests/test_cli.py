@@ -56,7 +56,7 @@ class TestConvert:
     def test_convert_no_files(self, runner, tmp_path):
         result = runner.invoke(cli, ["convert", str(tmp_path), "-f", "mp3"])
         assert result.exit_code == 0
-        assert "No audio files found" in result.output
+        assert "未找到音频文件" in result.output
 
 
 class TestNormalize:
@@ -118,4 +118,4 @@ class TestRename:
         wav_file = sample_audio / "test_tone.wav"
         result = runner.invoke(cli, ["rename", str(wav_file), "-p", "{index}_{title}", "--dry-run"])
         assert result.exit_code == 0
-        assert "DRY RUN" in result.output
+        assert "预览模式" in result.output

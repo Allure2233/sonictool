@@ -30,17 +30,17 @@ def _parse_time(time_str: str) -> int:
 
 @click.command()
 @click.argument("paths", nargs=-1, required=True, type=click.Path(exists=True))
-@click.option("-s", "--start", default="0", help="Start time (e.g. '1:30', '90s', '5000ms').")
-@click.option("-e", "--end", default=None, help="End time (e.g. '3:00', '180s').")
-@click.option("-d", "--duration", default=None, help="Duration from start (e.g. '30s', '1:00').")
-@click.option("-o", "--output", "output_dir", default=None, help="Output directory.")
-@click.option("-r", "--recursive", is_flag=True, help="Search directories recursively.")
-@click.option("--silence", is_flag=True, help="Trim leading and trailing silence.")
-@click.option("--silence-thresh", default=-40, type=int, help="Silence threshold in dBFS (default: -40).")
+@click.option("-s", "--start", default="0", help="起始时间（如 '1:30'、'90s'、'5000ms'）。")
+@click.option("-e", "--end", default=None, help="结束时间。")
+@click.option("-d", "--duration", default=None, help="从起始位置的时长。")
+@click.option("-o", "--output", "output_dir", default=None, help="输出目录。")
+@click.option("-r", "--recursive", is_flag=True, help="递归搜索子目录。")
+@click.option("--silence", is_flag=True, help="自动去除首尾静音。")
+@click.option("--silence-thresh", default=-40, type=int, help="静音阈值 dBFS（默认 -40）。")
 def trim(paths, start, end, duration, output_dir, recursive, silence, silence_thresh):
-    """Trim audio files by time range or remove silence.
+    """按时间范围裁剪音频或去除静音。
 
-    Examples:
+    示例:
 
         sonictool trim song.mp3 -s 30s -e 2:00
 
@@ -51,11 +51,11 @@ def trim(paths, start, end, duration, output_dir, recursive, silence, silence_th
     files = find_audio_files(list(paths), recursive)
 
     if not files:
-        console.print("[yellow]No audio files found.[/yellow]")
+        console.print("[yellow]未找到音频文件。[/yellow]")
         return
 
     print_header("Trim Audio")
-    console.print(f"Found [bold]{len(files)}[/bold] file(s)\n")
+    console.print(f"找到 [bold]{len(files)}[/bold] 个文件\n")
 
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
@@ -70,7 +70,7 @@ def trim(paths, start, end, duration, output_dir, recursive, silence, silence_th
     success, failed = 0, 0
 
     with create_progress() as progress:
-        task = progress.add_task("Trimming...", total=len(files))
+        task = progress.add_task("裁剪中...", total=len(files))
 
         for f in files:
             try:
@@ -105,4 +105,4 @@ def trim(paths, start, end, duration, output_dir, recursive, silence, silence_th
 
             progress.advance(task)
 
-    console.print(f"\n[bold green]Done![/bold green] {success} trimmed, {failed} failed.")
+    console.print(f"\n[bold green]完成！[/bold green] {success} 个成功，{failed} 个失败。")

@@ -31,12 +31,12 @@ def _format_size(size_bytes: int) -> str:
 
 @click.command()
 @click.argument("paths", nargs=-1, required=True, type=click.Path(exists=True))
-@click.option("-r", "--recursive", is_flag=True, help="Search directories recursively.")
-@click.option("-j", "--json", "as_json", is_flag=True, help="Output as JSON.")
+@click.option("-r", "--recursive", is_flag=True, help="递归搜索子目录。")
+@click.option("-j", "--json", "as_json", is_flag=True, help="JSON 格式输出。")
 def info(paths, recursive, as_json):
-    """Show audio file metadata and properties.
+    """查看音频文件元数据和属性。
 
-    Examples:
+    示例:
 
         sonictool info song.mp3
 
@@ -47,7 +47,7 @@ def info(paths, recursive, as_json):
     files = find_audio_files(list(paths), recursive)
 
     if not files:
-        console.print("[yellow]No audio files found.[/yellow]")
+        console.print("[yellow]未找到音频文件。[/yellow]")
         return
 
     if as_json:
@@ -72,7 +72,7 @@ def info(paths, recursive, as_json):
         console.print(json.dumps(results, indent=2, ensure_ascii=False))
         return
 
-    print_header(f"Audio Info ({len(files)} files)")
+    print_header(f"音频信息（{len(files)} 个文件）")
 
     for f in files:
         try:

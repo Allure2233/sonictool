@@ -14,24 +14,24 @@ from sonictool.utils.display import console, print_error, print_header, print_su
 
 @click.command()
 @click.argument("paths", nargs=-1, required=True, type=click.Path(exists=True))
-@click.option("-p", "--pattern", default="{index}_{title}", help="Rename pattern. Variables: {index}, {title}, {artist}, {album}, {ext}")
-@click.option("-s", "--start", default=1, type=int, help="Starting index number (default: 1).")
-@click.option("-z", "--pad", default=3, type=int, help="Zero-pad index to N digits (default: 3).")
-@click.option("-r", "--recursive", is_flag=True, help="Search directories recursively.")
-@click.option("--dry-run", is_flag=True, help="Preview renames without executing.")
+@click.option("-p", "--pattern", default="{index}_{title}", help="重命名模式。变量: {index}, {title}, {artist}, {album}, {ext}")
+@click.option("-s", "--start", default=1, type=int, help="起始序号（默认 1）。")
+@click.option("-z", "--pad", default=3, type=int, help="序号补零位数（默认 3）。")
+@click.option("-r", "--recursive", is_flag=True, help="递归搜索子目录。")
+@click.option("--dry-run", is_flag=True, help="仅预览，不实际重命名。")
 def rename(paths, pattern, start, pad, recursive, dry_run):
-    """Rename audio files using metadata or pattern.
+    """按元数据模式批量重命名音频文件。
 
-    Available pattern variables:
+    可用变量:
 
-    
-      {index}  - Sequential number (zero-padded)
-      {title}  - Title from metadata (or filename if missing)
-      {artist} - Artist from metadata
-      {album}  - Album from metadata
-      {ext}    - Original file extension
+    \b
+      {index}  - 序号（自动补零）
+      {title}  - 标题（元数据或文件名）
+      {artist} - 艺术家
+      {album}  - 专辑
+      {ext}    - 原始扩展名
 
-    Examples:
+    示例:
 
         sonictool rename ./music -p "{artist} - {title}"
 
@@ -42,13 +42,13 @@ def rename(paths, pattern, start, pad, recursive, dry_run):
     files = find_audio_files(list(paths), recursive)
 
     if not files:
-        console.print("[yellow]No audio files found.[/yellow]")
+        console.print("[yellow]未找到音频文件。[/yellow]")
         return
 
     print_header("Rename Audio Files")
 
     if dry_run:
-        console.print("[yellow]DRY RUN — no files will be renamed[/yellow]\n")
+        console.print("[yellow]预览模式 — 不会实际重命名[/yellow]\\n")
 
     table = Table(show_header=True, border_style="blue")
     table.add_column("Old Name", style="dim")
@@ -61,7 +61,7 @@ def rename(paths, pattern, start, pad, recursive, dry_run):
     for i, f in enumerate(files):
         try:
             audio = AudioSegment.from_file(str(f))
-            tags = audio.tags or {}
+            tags = getattr(audio, "tags", None) or {}
 
             title = tags.get("title", f.stem)
             artist = tags.get("artist", "Unknown")
