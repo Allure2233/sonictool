@@ -1,13 +1,11 @@
 """Audio file discovery and validation utilities."""
 
-import os
 from pathlib import Path
-from typing import List
 
 SUPPORTED_EXTENSIONS = {".mp3", ".wav", ".flac", ".ogg", ".aac", ".m4a", ".wma", ".opus"}
 
 
-def find_audio_files(paths: List[str], recursive: bool = False) -> List[Path]:
+def find_audio_files(paths: list[str], recursive: bool = False) -> list[Path]:
     """Find audio files from given paths (files or directories).
 
     Args:

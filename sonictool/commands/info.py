@@ -1,12 +1,11 @@
 """Display audio file metadata and properties."""
 
 import os
-from pathlib import Path
 
 import click
 from pydub import AudioSegment
-from rich.table import Table
 from rich.panel import Panel
+from rich.table import Table
 
 from sonictool.utils.audio import find_audio_files
 from sonictool.utils.display import console, print_header
@@ -52,21 +51,24 @@ def info(paths, recursive, as_json):
 
     if as_json:
         import json
+
         results = []
         for f in files:
             try:
                 audio = AudioSegment.from_file(str(f))
-                results.append({
-                    "file": str(f),
-                    "format": f.suffix.lstrip("."),
-                    "channels": audio.channels,
-                    "sample_rate": audio.frame_rate,
-                    "sample_width": audio.sample_width * 8,
-                    "duration_ms": len(audio),
-                    "duration": _format_duration(len(audio)),
-                    "dBFS": round(audio.dBFS, 2),
-                    "size": os.path.getsize(f),
-                })
+                results.append(
+                    {
+                        "file": str(f),
+                        "format": f.suffix.lstrip("."),
+                        "channels": audio.channels,
+                        "sample_rate": audio.frame_rate,
+                        "sample_width": audio.sample_width * 8,
+                        "duration_ms": len(audio),
+                        "duration": _format_duration(len(audio)),
+                        "dBFS": round(audio.dBFS, 2),
+                        "size": os.path.getsize(f),
+                    }
+                )
             except Exception as e:
                 results.append({"file": str(f), "error": str(e)})
         console.print(json.dumps(results, indent=2, ensure_ascii=False))

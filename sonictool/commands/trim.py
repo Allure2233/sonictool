@@ -1,14 +1,17 @@
 """Trim audio files by time range or silence."""
 
-from pathlib import Path
 import os
+from pathlib import Path
 
 import click
 from pydub import AudioSegment
 
 from sonictool.utils.audio import find_audio_files
 from sonictool.utils.display import (
-    console, create_progress, print_error, print_header,
+    console,
+    create_progress,
+    print_error,
+    print_header,
 )
 
 
@@ -80,14 +83,14 @@ def trim(paths, start, end, duration, output_dir, recursive, silence, silence_th
                     # Trim silence from start
                     trim_start = 0
                     for i in range(0, len(audio), 10):
-                        chunk = audio[i:i+10]
+                        chunk = audio[i : i + 10]
                         if chunk.dBFS > silence_thresh:
                             trim_start = i
                             break
                     # Trim silence from end
                     trim_end = len(audio)
                     for i in range(len(audio), 0, -10):
-                        chunk = audio[max(0, i-10):i]
+                        chunk = audio[max(0, i - 10) : i]
                         if chunk.dBFS > silence_thresh:
                             trim_end = i
                             break

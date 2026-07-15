@@ -1,8 +1,6 @@
 """Rename audio files based on metadata or patterns."""
 
-import os
 import re
-from pathlib import Path
 
 import click
 from pydub import AudioSegment
@@ -14,7 +12,12 @@ from sonictool.utils.display import console, print_error, print_header, print_su
 
 @click.command()
 @click.argument("paths", nargs=-1, required=True, type=click.Path(exists=True))
-@click.option("-p", "--pattern", default="{index}_{title}", help="重命名模式。变量: {index}, {title}, {artist}, {album}, {ext}")
+@click.option(
+    "-p",
+    "--pattern",
+    default="{index}_{title}",
+    help="重命名模式。变量: {index}, {title}, {artist}, {album}, {ext}",
+)
 @click.option("-s", "--start", default=1, type=int, help="起始序号（默认 1）。")
 @click.option("-z", "--pad", default=3, type=int, help="序号补零位数（默认 3）。")
 @click.option("-r", "--recursive", is_flag=True, help="递归搜索子目录。")
@@ -69,7 +72,7 @@ def rename(paths, pattern, start, pad, recursive, dry_run):
 
             # Sanitize filename
             def sanitize(s):
-                return re.sub(r'[<>:"/\\|?*]', '_', str(s).strip())
+                return re.sub(r'[<>:"/\\|?*]', "_", str(s).strip())
 
             ext = f.suffix
             index_num = str(i + start).zfill(pad)

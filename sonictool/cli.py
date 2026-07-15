@@ -19,12 +19,12 @@ def cli():
     pass
 
 
-from sonictool.commands.convert import convert
-from sonictool.commands.normalize import normalize
-from sonictool.commands.trim import trim
-from sonictool.commands.merge import merge
-from sonictool.commands.info import info
-from sonictool.commands.rename import rename
+from sonictool.commands.convert import convert  # noqa: E402
+from sonictool.commands.info import info  # noqa: E402
+from sonictool.commands.merge import merge  # noqa: E402
+from sonictool.commands.normalize import normalize  # noqa: E402
+from sonictool.commands.rename import rename  # noqa: E402
+from sonictool.commands.trim import trim  # noqa: E402
 
 cli.add_command(convert)
 cli.add_command(normalize)

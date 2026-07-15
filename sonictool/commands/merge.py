@@ -8,7 +8,9 @@ from pydub import AudioSegment
 
 from sonictool.utils.audio import find_audio_files
 from sonictool.utils.display import (
-    console, print_error, print_header,
+    console,
+    print_error,
+    print_header,
 )
 
 
@@ -76,7 +78,7 @@ def merge(paths, output, gap, recursive, crossfade):
 
         duration_sec = len(combined) / 1000
         console.print(f"\n[bold green]Done![/bold green] Merged {len(files)} files → {output}")
-        console.print(f"  Total duration: {int(duration_sec//60)}:{int(duration_sec%60):02d}")
+        console.print(f"  Total duration: {int(duration_sec // 60)}:{int(duration_sec % 60):02d}")
 
     except Exception as e:
         print_error(f"Merge failed: {e}")

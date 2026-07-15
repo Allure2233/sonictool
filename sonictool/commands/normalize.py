@@ -8,7 +8,10 @@ from pydub import AudioSegment
 
 from sonictool.utils.audio import find_audio_files
 from sonictool.utils.display import (
-    console, create_progress, print_error, print_header,
+    console,
+    create_progress,
+    print_error,
+    print_header,
 )
 
 

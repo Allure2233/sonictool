@@ -1,9 +1,5 @@
 """Tests for SonicTool CLI."""
 
-import os
-import tempfile
-from pathlib import Path
-
 import pytest
 from click.testing import CliRunner
 from pydub import AudioSegment
@@ -72,7 +68,9 @@ class TestTrim:
     def test_trim_by_duration(self, runner, sample_audio):
         wav_file = sample_audio / "test_tone.wav"
         output_dir = sample_audio / "trimmed"
-        result = runner.invoke(cli, ["trim", str(wav_file), "-s", "0", "-d", "1s", "-o", str(output_dir)])
+        result = runner.invoke(
+            cli, ["trim", str(wav_file), "-s", "0", "-d", "1s", "-o", str(output_dir)]
+        )
         assert result.exit_code == 0
 
     def test_trim_silence(self, runner, tmp_path):
