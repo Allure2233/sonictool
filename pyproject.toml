@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sonictool"
+version = "0.1.0"
+description = "A fast, user-friendly CLI toolkit for batch audio processing"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [{ name = "Allure2233", email = "AllureDMX@outlook.com" }]
+keywords = ["audio", "cli", "batch", "converter", "normalize", "ffmpeg", "pydub"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Conversion",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "click>=8.0",
+    "pydub>=0.25",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+sonictool = "sonictool.cli:cli"
+
+[project.urls]
+Homepage = "https://github.com/Allure2233/sonictool"
+Repository = "https://github.com/Allure2233/sonictool"
+Issues = "https://github.com/Allure2233/sonictool/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["sonictool"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
